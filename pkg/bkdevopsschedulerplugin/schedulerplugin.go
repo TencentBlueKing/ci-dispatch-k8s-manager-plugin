@@ -173,10 +173,10 @@ func calculateRealResourceScore(realResources []realResourceUsage, pod *v1.Pod, 
 func calculatePodResource(pod *v1.Pod) (requestCpu, requestMem, limitCpu, limitMem int64) {
 	for i := range pod.Spec.Containers {
 		container := &pod.Spec.Containers[i]
-		value := schedutil.GetNonzeroRequestForResource(v1.ResourceCPU, &container.Resources.Requests)
+		value := schedutil.GetRequestForResource(v1.ResourceCPU, &container.Resources.Requests, true)
 		requestCpu += value
 
-		value = schedutil.GetNonzeroRequestForResource(v1.ResourceMemory, &container.Resources.Requests)
+		value = schedutil.GetRequestForResource(v1.ResourceMemory, &container.Resources.Requests, true)
 		requestMem += value
 
 		if _, found := container.Resources.Limits[v1.ResourceCPU]; !found {
